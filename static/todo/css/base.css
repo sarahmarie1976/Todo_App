@@ -2,6 +2,9 @@ body {
     background: #fafafa;
     color: #33333a;
     padding-top: 70px;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
 }
 
 h1,
@@ -23,4 +26,39 @@ h6 {
 
 .btn-link.dropdown-icon i {
     color: darkgray !important;
+}
+
+.todo-title {
+    padding-left: 30px;
+    text-align: left;
+    margin: 0 auto;
+    display: block;
+}
+
+.content {
+    flex: 1;
+}
+
+footer {
+    width: 100%;
+    background-color: #f8f9fa;
+    padding: 10px 0;
+    text-align: center;
+}
+
+footer .container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+footer .text-muted {
+    margin: 5px 0;
+}
+
+footer .mt-2 a,
+footer .mt-3 a {
+    color: darkgray;
+    margin: 0 10px;
+    text-decoration: none;
 }
