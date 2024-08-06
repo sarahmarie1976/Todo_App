@@ -1,20 +1,18 @@
+import os
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 from sqlalchemy.ext.declarative import declarative_base
+from dotenv import load_dotenv
 
-SQLALCHEMY_DATABASE_URL = "sqlite:///./todos.db"
+# Load environment variables from .env file
+load_dotenv()
 
-# MYSQL Series
-# SQLALCHEMY_DATABASE_URL = "mysql+pymysql://root:test1234!@127.0.0.1:3306/todoapp"
+# SQLALCHEMY_DATABASE_URL = "sqlite:///./todos.db"
 
-engine = create_engine(
-    SQLALCHEMY_DATABASE_URL, connect_args={"check_same_thread": False}
-)
+# PostgreSQL Series
+SQLALCHEMY_DATABASE_URL = os.getenv("DATABASE_URL")
 
-# MYSQL Series
-# engine = create_engine(
-#     SQLALCHEMY_DATABASE_URL
-# )
+engine = create_engine(SQLALCHEMY_DATABASE_URL)
 
 SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
 
