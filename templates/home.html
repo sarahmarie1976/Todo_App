@@ -7,74 +7,82 @@
         </div>
         <div class="card-body">
             <h5 class="card-title">List of your Todos!</h5>
-            <p class="card-text">Information regarding stuff that needs to be complete</p>
+            <p class="card-text">Information regarding stuff that needs to be completed</p>
 
             <table class="table table-hover">
                 <thead>
                     <tr>
-                        <th scope="col">#</th>
-                        <th scope="col">Info</th>
-                        <th scope="col">Actions</th>
+                        <th scope="col" class="text-center">#</th>
+                        <th scope="col" class="text-center">Info</th>
+                        <th scope="col" class="text-center">Actions</th>
                     </tr>
                 </thead>
                 <tbody>
                     {% for todo in todos %}
                     {% if todo.complete == False %}
-                    <tr class="pointer">
-                        <td>{{loop.index}}</td>
-                        <td>{{todo.title}}</td>
-                        <td>
-                            <button class="btn btn-link dropdown-icon" type="button" data-toggle="collapse"
-                                data-target="#collapse{{todo.id}}" aria-expanded="false"
-                                aria-controls="collapse{{todo.id}}">
-                                <i class="fas fa-bars"></i>
-                            </button>
-                            <button onclick="window.location.href='complete/{{todo.id}}'" type="button"
+                    <tr class="pointer" data-toggle="collapse" data-target="#description-{{ todo.id }}"
+                        aria-expanded="false" aria-controls="description-{{ todo.id }}">
+                        <td class="text-center">{{ loop.index }}</td>
+                        <td class="text-left todo-title">{{ todo.title }}</td>
+                        <td class="text-center">
+                            <button onclick="window.location.href='complete/{{ todo.id }}'" type="button"
                                 class="btn btn-success">Complete</button>
-                            <button onclick="window.location.href='edit-todo/{{todo.id}}'" type="button"
+                            <button onclick="window.location.href='edit-todo/{{ todo.id }}'" type="button"
                                 class="btn btn-info">Edit</button>
+                            <button onclick="window.location.href='delete/{{ todo.id }}'" type="button"
+                                class="btn btn-danger">Delete</button>
+                            <i class="fas fa-chevron-down dropdown-icon"></i>
                         </td>
                     </tr>
-                    <tr>
-                        <td colspan="3">
-                            <div class="collapse" id="collapse{{todo.id}}">
-                                <div class="card card-body">
-                                    {{todo.description}}
-                                </div>
-                            </div>
-                        </td>
+                    <tr id="description-{{ todo.id }}" class="collapse">
+                        <td colspan="3" class="text-left">{{ todo.description }}</td>
                     </tr>
                     {% else %}
-                    <tr class="pointer alert alert-success">
-                        <td>{{loop.index}}</td>
-                        <td class="strike-through-td">{{todo.title}}</td>
-                        <td>
-                            <button class="btn btn-link dropdown-icon" type="button" data-toggle="collapse"
-                                data-target="#collapse{{todo.id}}" aria-expanded="false"
-                                aria-controls="collapse{{todo.id}}">
-                                <i class="fas fa-bars"></i>
-                            </button>
-                            <button onclick="window.location.href='complete/{{todo.id}}'" type="button"
+                    <tr class="pointer alert alert-success" data-toggle="collapse"
+                        data-target="#description-{{ todo.id }}" aria-expanded="false"
+                        aria-controls="description-{{ todo.id }}">
+                        <td class="text-center">{{ loop.index }}</td>
+                        <td class="text-left strike-through-td">{{ todo.title }}</td>
+                        <td class="text-center">
+                            <button onclick="window.location.href='complete/{{ todo.id }}'" type="button"
                                 class="btn btn-success">Undo</button>
-                            <button onclick="window.location.href='edit-todo/{{todo.id}}'" type="button"
+                            <button onclick="window.location.href='edit-todo/{{ todo.id }}'" type="button"
                                 class="btn btn-info">Edit</button>
+                            <button onclick="window.location.href='delete/{{ todo.id }}'" type="button"
+                                class="btn btn-danger">Delete</button>
+                            <i class="fas fa-chevron-down dropdown-icon"></i>
                         </td>
                     </tr>
-                    <tr>
-                        <td colspan="3">
-                            <div class="collapse" id="collapse{{todo.id}}">
-                                <div class="card card-body">
-                                    {{todo.description}}
-                                </div>
-                            </div>
-                        </td>
+                    <tr id="description-{{ todo.id }}" class="collapse">
+                        <td colspan="3" class="text-left">{{ todo.description }}</td>
                     </tr>
                     {% endif %}
                     {% endfor %}
                 </tbody>
             </table>
-
             <a href="add-todo" class="btn btn-primary">Add a new Todo!</a>
         </div>
     </div>
 </div>
+
+<style>
+    .pointer {
+        cursor: pointer;
+    }
+
+    .dropdown-icon {
+        color: darkgray;
+        margin-left: 10px;
+    }
+
+    .strike-through-td {
+        text-decoration: line-through;
+    }
+
+    .todo-title {
+        padding-left: 30px;
+        text-align: left;
+        margin: 0 auto;
+        display: block;
+    }
+</style>

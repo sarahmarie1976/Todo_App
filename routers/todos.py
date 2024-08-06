@@ -100,3 +100,16 @@ async def complete_todo(request: Request, todo_id: int, db: Session = Depends(ge
     db.add(todo)
     db.commit()
     return RedirectResponse(url="/todos", status_code=status.HTTP_302_FOUND)
+
+@router.get("/delete/{todo_id}")
+async def delete_todo(request: Request, todo_id: int, db: Session = Depends(get_db)):
+    user = await get_current_user(request)
+    if user is None:
+        return RedirectResponse(url="/auth", status_code=status.HTTP_302_FOUND)
+    todo_model = db.query(models.Todos).filter(models.Todos.id == todo_id).filter(models.Todos.owner_id == user.get("id")).first()
+    if todo_model is None:
+        return RedirectResponse(url="/todos", status_code=status.HTTP_302_FOUND)
+    db.query(models.Todos).filter(models.Todos.id == todo_id).delete()
+    db.commit()
+    return RedirectResponse(url="/todos", status_code=status.HTTP_302_FOUND)
+
