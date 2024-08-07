@@ -25,12 +25,12 @@
                         <td class="text-center">{{ loop.index }}</td>
                         <td class="text-left todo-title">{{ todo.title }}</td>
                         <td class="text-center">
-                            <button onclick="window.location.href='complete/{{ todo.id }}'" type="button"
+                            <button onclick="event.stopPropagation(); completeTodo('{{ todo.id }}')" type="button"
                                 class="btn btn-success">Complete</button>
-                            <button onclick="window.location.href='edit-todo/{{ todo.id }}'" type="button"
-                                class="btn btn-info">Edit</button>
-                            <button onclick="window.location.href='delete/{{ todo.id }}'" type="button"
-                                class="btn btn-danger">Delete</button>
+                            <button onclick="event.stopPropagation(); window.location.href='edit-todo/{{ todo.id }}'"
+                                type="button" class="btn btn-info">Edit</button>
+                            <button onclick="event.stopPropagation(); window.location.href='delete/{{ todo.id }}'"
+                                type="button" class="btn btn-danger">Delete</button>
                             <i class="fas fa-chevron-down dropdown-icon"></i>
                         </td>
                     </tr>
@@ -44,12 +44,12 @@
                         <td class="text-center">{{ loop.index }}</td>
                         <td class="text-left strike-through-td">{{ todo.title }}</td>
                         <td class="text-center">
-                            <button onclick="window.location.href='complete/{{ todo.id }}'" type="button"
+                            <button onclick="event.stopPropagation(); completeTodo('{{ todo.id }}')" type="button"
                                 class="btn btn-success">Undo</button>
-                            <button onclick="window.location.href='edit-todo/{{ todo.id }}'" type="button"
-                                class="btn btn-info">Edit</button>
-                            <button onclick="window.location.href='delete/{{ todo.id }}'" type="button"
-                                class="btn btn-danger">Delete</button>
+                            <button onclick="event.stopPropagation(); window.location.href='edit-todo/{{ todo.id }}'"
+                                type="button" class="btn btn-info">Edit</button>
+                            <button onclick="event.stopPropagation(); window.location.href='delete/{{ todo.id }}'"
+                                type="button" class="btn btn-danger">Delete</button>
                             <i class="fas fa-chevron-down dropdown-icon"></i>
                         </td>
                     </tr>
@@ -86,3 +86,19 @@
         display: block;
     }
 </style>
+
+<script>
+    function completeTodo(todoId) {
+        fetch(`/todos/complete/${todoId}`)
+            .then(response => {
+                if (response.ok) {
+                    location.reload();
+                } else {
+                    alert("Failed to complete the todo.");
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+            });
+    }
+</script>
